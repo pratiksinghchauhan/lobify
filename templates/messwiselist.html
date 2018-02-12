@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block style %} 
+      position:absolute;
+{% endblock %}
+
+{% block nav %}
+
+              <li><a href="/userhome/">{{request.user.username}}</a></li>
+              <li><a href="/accountsettings/"> <span class="glyphicon glyphicon-cog"></span></a></li>
+              <li><a href="/logout/">Logout <span class="glyphicon glyphicon-log-out"></span></a></li>
+{% endblock %}
+
+{% block content %}
+    <br><br><br>
+    <div class="container">
+
+        <table class="table table-striped">
+            <tr>
+                <th>Mess/Canteen Name</th>
+                <th>Amount</th>
+                <th>Remarks</th>
+                <th>Verified</th>
+                <th>Balance (In Rs.)</th>
+            </tr>
+
+            {% for diet in diets %}
+                <tr>
+                    <td>{{diet.messname}}</td>
+                    <td>{{diet.amount}}</td>
+                    <td>{{diet.remarks}}</td>
+                    
+                    {% if not diet.verified %}
+                      <td><a href="/verifydiet?id={{diet.id}}">Verify</a></td>
+                    {% else %}
+                        <td>Verified</td>
+                    {% endif %}
+
+                    {% cdetails diet %}
+                        {% if credit < 0 %}
+                            <td style="color:red">{{credit}} (Dues)</td>
+                        {% else %}
+                            <td>{{credit}} </td>
+                        {% endif %}
+
+                </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+{% endblock %}

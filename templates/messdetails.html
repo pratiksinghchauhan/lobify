@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% load userinfo %}
+
+{% block style %} 
+      position:absolute;
+{% endblock %}
+
+{% block nav %}
+
+              <li><a href="/userhome/">{{request.user.username}}</a></li>
+              <li><a href="/accountsettings/"> <span class="glyphicon glyphicon-cog"></span></a></li>
+              <li><a href="/logout/">Logout <span class="glyphicon glyphicon-log-out"></span></a></li>
+{% endblock %}
+
+{% block content %}
+    <br><br><br>
+    <div class="container">
+
+            <div class="well">
+                    <h2 class="text-center"> Records of {{messname}} </h2>
+            </div>
+
+            <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/userhome/"><span class="glyphicon glyphicon-home"></span> </a>&nbsp Home</li>
+                    <li class="breadcrumb-item"><a onclick="goBack()"><span class="glyphicon glyphicon-file"></span> Records</a></li>
+                    <li class="breadcrumb-item"> <span class="glyphicon glyphicon-list-alt"></span> &nbsp Details</li>
+                </ol>
+
+                <script>
+                        function goBack() {
+                            window.history.back()
+                        }
+                </script>
+
+    
+
+
+        <table style="background-color:white;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" class="table table-bordered">
+            <tr>
+                <th><span class="glyphicon glyphicon-cutlery"></span> Mess/Canteen Name </th>
+                <th><i class="fa fa-inr"></i> Amount</th>
+                <th><span class="glyphicon glyphicon-pencil"></span>  Remarks</th>
+                <th><span class="glyphicon glyphicon-ok"></span> Verified</th>
+                <th><i class="fa fa-inr"></i> Balance</th>
+            </tr>
+
+            {% for diet in diets %}
+                <tr>
+                    <td>{{diet.messname}}</td>
+                    <td>{{diet.amount}}</td>
+                    <td>{{diet.remarks}}</td>
+                    <td>{{diet.verified}}</td>
+                    
+                    {% cdetails diet %}
+                        {% if credit < 0 %}
+                            <td style="color:red">{{credit}} (Dues)</td>
+                        {% else %}
+                        <td style="color:green">{{credit}} (Advance)</td>
+                        {% endif %}
+                    
+
+                </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+{% endblock %}

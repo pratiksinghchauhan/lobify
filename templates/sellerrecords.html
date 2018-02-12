@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% load userinfo %}
+{% load timesince %}
+
+{% block style %} 
+      position:absolute;
+{% endblock %}
+
+{%  load timesince %}
+
+
+{% block nav %}
+
+              <li><a href="/userhome/">{{request.user.username}}</a></li>
+              <li><a href="/accountsettings/"> <span class="glyphicon glyphicon-cog"></span></a></li>
+              <li><a href="/logout/">Logout <span class="glyphicon glyphicon-log-out"></span></a></li>
+{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="container">
+
+            <div class="well">
+                <h2  class="text-center"> View all records </h2>
+            </div>
+			<br>
+			<ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/userhome/"><span class="glyphicon glyphicon-home"></span> &nbsp; Home</a></li>
+                <li class="breadcrumb-item"><span class="glyphicon glyphicon-file"></span>Records</li>
+			</ol>
+					
+<!--
+            <form method="get" class="form-inline" action="/search">
+                <input type="text" class="form-control" name="query"  >
+                <input type="submit" value="Search" class="btn btn-success">
+            </form>
+
+            <a href="/monthview">or View This Month</a>
+-->
+            <br><br>
+
+        <table style="background-color:white;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" class="table table-bordered">
+            <tr>
+                <th><span class="glyphicon glyphicon-user"></span> Customer </th>
+            
+                <th><i class="fa fa-inr"></i>Balance</th>
+                <th><span class="glyphicon glyphicon-time"></span> Added</th>
+            </tr>
+
+            
+
+            {% for diet in diets %}
+                <tr>
+                    <td> <a href="/userbills?username={{diet.customer}}">{{diet.customer}}</a></td>
+                   
+                    {% cdetails diet %}
+                        {% if credit < 0 %}
+                            <td style="color:red">{{credit}} (Dues)</td>
+                        {% else %}
+                        <td style="color:green">{{credit}} (Advance)</td>
+                        {% endif %}
+                    <td>{{diet.ts|age}}</td>
+
+                </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+{% endblock %}

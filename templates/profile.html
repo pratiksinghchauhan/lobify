@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{%  load timesince %}
+
+{% block style %}
+    position:relative;
+{% endblock %}
+
+
+{% block nav %}
+
+              <li><a href="/userhome/">{{request.user.username}}</a></li>
+              <li><a href="/accountsettings/"> <span class="glyphicon glyphicon-cog"></span></a></li>
+              <li><a href="/logout/">Logout <span class="glyphicon glyphicon-log-out"></span></a></li>
+{% endblock %}
+
+{% block content %}
+<style type="text/css">
+
+
+	.udet{
+		color: grey;
+	}
+	.picd{
+		text-align: center;
+	}
+	.profileshaan{
+		text-align: center;
+		color: grey;
+	}
+	.table-bordered{
+		background-color: white;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	}
+
+	.kitab{
+		font-size: 400%;
+	}
+</style>
+           <br>
+           <div class="container">
+
+
+				{% if customer %}
+
+				<div class="well">
+						<h2 class="text-center"> Hello &nbsp; <strong>{{request.user.username}} </strong> </h2>
+					</div>
+
+
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><span class="glyphicon glyphicon-home"></span> &nbsp Home</li>
+					  </ol>
+
+					  <div class="well">
+							<form method="post" class="form-inline" action="/addmoney/">
+								
+								<div style="color:red" id="displayerror"></div>
+								<label><h4>Add amount: &nbsp; </h4></label>
+								<input type="text" id="messname" name="messname" placeholder="Messname" class="form-control">&nbsp;&nbsp;
+								<input type="text" name="amount" placeholder="Amount" class="form-control">&nbsp;&nbsp;
+								<button type="submit" id="add_btn" class="btn btn-success"> <span class="glyphicon glyphicon-plus"></span>Add</button>
+								{% csrf_token %}
+							</form>
+						 </div>
+
+					<form action="/managerecords/">
+						<button type="submit" class="btn btn-success">Manage Records </button>  
+					</form>
+					<h3>Recently added: </h3>
+						
+						
+
+						
+					
+					<table class="table table-bordered">
+							<tr>
+								<th><span class="glyphicon glyphicon-user"></span> Customer</th>
+								<th><i class="fa fa-inr"></i> Amount</th>
+								<th><span class="glyphicon glyphicon-pencil"></span> Remarks</th>
+								<th><span class="glyphicon glyphicon-time"></span> Added</th>
+							</tr>
+	
+							{% for diet in diets %}
+								<tr>
+									 <td><a href="/messwiselist/?messwise={{diet.messname}}">{{diet.messname}}</a></td>
+									 <td>{{diet.amount}}</td>
+									 <td>{{diet.remarks}}</td>
+									 <td>{{diet.ts|age}}</td>
+								</tr>
+							{% endfor %}
+	
+						</table>
+
+				{% else %}  
+				<div class="well">
+					<h2> Your Mess/Canteen : &nbsp; <strong>{{messname}} </strong> </h2>
+				</div>
+
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><span class="glyphicon glyphicon-home"></span> &nbsp Home</li>
+					  </ol>
+					
+					<div class="well">
+						<form method="post" class="form-inline" action="">
+							
+							<div style="color:red" id="displayerror"></div>
+							<label><h4>Add an Item: &nbsp; </h4></label>
+							<input type="text" id="cname" name="cname" placeholder="Customer Username" class="form-control">&nbsp;&nbsp;
+							<input type="text" name="amount" placeholder="Amount" class="form-control">&nbsp;&nbsp;
+							<input type="text" name="remarks" placeholder="Remarks" class="form-control">
+							<button type="submit" id="add_btn" class="btn btn-success"> <span class="glyphicon glyphicon-plus"></span>Add</button>
+							{% csrf_token %}
+						</form>
+					 </div>
+
+					 <form action="/sellerrecords/">
+
+					 <button class="btn btn-success" type="submit">View All Records</button>
+					 </form>
+
+					 <script>
+						$("#cname").change(function () {
+							var cname = $(this).val();
+
+							$.ajax({
+								url: '/loginajax/',
+								data: {
+								'cname': cname
+								},
+								dataType: 'json',
+								success: function (data) {
+									console.log(data);
+									if (!data.user) {
+										$("#add_btn").attr("disabled",true);
+										document.getElementById("displayerror").innerHTML="Username Not Found... Please Ask your Customer Again...";
+									}
+									else{
+										$("#add_btn").attr("disabled",false);
+										document.getElementById("displayerror").innerHTML=""
+									}
+								}
+							});
+						});			
+					</script>
+				
+
+
+					<br><br>
+					<h3>Recently Added:</h3> 
+					<table class="table table-bordered">
+						<tr>
+							<th><span class="glyphicon glyphicon-user"></span> Customer Name</th>
+							<th><i class="fa fa-inr" style="font-size:24px"></i> Amount</th>
+							<th><span class="glyphicon glyphicon-pencil"></span> Remarks</th>
+							<th><span class="glyphicon glyphicon-time"></span> Added</th>
+						</tr>
+
+						{% for diet in diets %}
+							<tr>
+								 <td><a href="/userbills?username={{diet.customer}}">{{diet.customer}}</a></td>
+								 <td>{{diet.amount}}</td>
+								 <td>{{diet.remarks}}</td>
+								 <td>{{diet.ts|age}}</td>
+							</tr>
+						{% endfor %}
+
+					</table>
+					
+				{% endif %}
+			</div>
+
+{% endblock %}
+

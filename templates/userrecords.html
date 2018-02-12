@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load userinfo %}
+
+
+{% block style %} 
+      position:absolute;
+{% endblock %}
+
+{% block nav %}
+
+              <li><a href="/userhome/">{{request.user.username}}</a></li>
+              <li><a href="/accountsettings/"> <span class="glyphicon glyphicon-cog"></span></a></li>
+              <li><a href="/logout/">Logout <span class="glyphicon glyphicon-log-out"></span></a></li>
+{% endblock %}
+
+{% block content %}
+    <br><br><br>
+    <div class="container">
+
+            <div class="well">
+                    <h2 class="text-center"> All records </h2>
+            </div>
+
+
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/userhome/"><span class="glyphicon glyphicon-home"></span>&nbsp Home</a></li>
+                <li class="breadcrumb-item"><span class="glyphicon glyphicon-file"></span> &nbsp Records</li>
+            </ol>
+
+
+        <table style="background-color:white; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" class="table table-bordered">
+            <tr>
+                <th><span class="glyphicon glyphicon-cutlery"></span> Mess/Canteen Name</th>
+                <th><i class="fa fa-inr" style="font-size:24px"></i> Balance (In Rs.)</th>
+            </tr>
+
+            {% for diet in diets %}
+                <tr>
+                    <td><a href="/messwiselist/?messwise={{diet.messname}}"> {{diet.messname}}</a></td>
+
+                    {% cdetails diet %}
+                        {% if credit < 0 %}
+                            <td style="color:red">{{credit}} (Dues)</td>
+                        {% else %}
+                            <td style="color:green">{{credit}} (Advance)</td>
+                        {% endif %}
+                </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+{% endblock %}

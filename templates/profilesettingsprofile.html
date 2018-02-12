@@ -1,0 +1,42 @@
+{% extends "profilesettings.html" %}
+{% block form %}
+
+{% if customer %}
+		<form method="post" action="">
+		Mobile:
+		<input type="text" name="mobile" placeholder="Mobile Number" class="form-control">
+		<br>
+		<input type="submit" class="btn btn-success btn" value="Submit">
+		<br>
+		{% csrf_token %}
+		</form>
+
+{% else %}
+			<div id="profile">
+               <form action="" method="post">
+					
+
+					{% if mess %}
+						Mess/Canteen Name:
+						<input type="text" name="mess" placeholder="{{mess}}" class="form-control" disabled>
+						<br>
+						<input type="submit" class="btn btn-success btn" value="Submit" disabled>
+
+						<br>
+
+					{% else %}
+						Mess/Canteen Name:
+						<input type="text" name="mess" placeholder="Mess or Canteen Name" class="form-control">
+						<br>
+						<input type="submit" class="btn btn-success btn" value="Submit">
+						<br>
+					{% endif %}
+
+   	                <br>
+
+   	                
+   	                {% csrf_token %}
+   	            </form>          	
+			</div>
+{% endif %}			
+{% endblock %} 

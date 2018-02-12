@@ -1,0 +1,101 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="icon" type="image/gif/png" href="http://www.ipharmd.net/images/rx_symbol_black_monotype_plain.png">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  
+	<title>LobIfy</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+</head>
+<body>
+    <style type="text/css">
+
+    	.navbar-brand{
+    		font-size:20px;
+    		font-weight: bolder;
+    		font-style: italic;
+    	}
+
+      body{
+		background-color: hsl(0, 9%, 98%)
+	}
+
+      html,body{
+    height: 100%
+}
+
+    
+
+
+	.forgot{
+		margin-left: 20px;
+	}
+
+	#form-header{
+		font-size: 200%;
+		width:105%;
+		margin-left: 0px;
+		border-top-left-radius: 15px;
+		border-top-right-radius: 15px;
+
+	}
+
+	.form-group{
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+th{
+  background-color: grey;
+  color: white
+}
+
+	.col-md-4{
+		border-style: ridge;
+		border-radius: 15px;
+	}
+
+  .navbar{
+    background-color:  black;
+  }
+
+  .text-col{
+    color: white !important
+  }
+
+    </style>
+
+    <div class="collapse navbar-collapse">
+
+        <nav class="navbar navbar-default">
+          <div class="container">
+            
+            <div class="navbar-header">
+              <a class="navbar-brand text-col" href="/userhome/">Lobify</a>
+            </div>
+            
+            <ul class= "nav  navbar-nav text-col">
+              <li><a href="/about/">About </a></li>
+            </ul>
+            
+            <ul class="nav  navbar-nav navbar-right text-col">
+              {% block nav %}
+              {% endblock %}
+            </ul>
+          </div>
+        </nav>
+
+      </div>
+
+    {% block content %}
+
+    {% endblock %}
+
+
+
+
+</body>
+</html>

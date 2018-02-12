@@ -1,0 +1,18 @@
+ 
+{% extends "profilesettings.html" %}
+{% block form %}
+
+ <div id="emails">
+				 {% if message %}
+					{{message}}
+				{% endif %}
+               <form action="" method="post">
+                  <label for="#privateemail">Email</label>
+               	  <input id="privateemail" type="email" name="email" class="form-control" placeholder={{user.email}}>
+               	  <br>
+               	  <button type="submit" class="btn btn-primary">Change email</button>
+               	  {% csrf_token %}
+
+               </form>
+</div>
+{% endblock %} 
