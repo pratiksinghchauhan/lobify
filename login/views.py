@@ -19,8 +19,6 @@ def home(request):
     if request.method == "POST" and 'custname' in request.POST and 'custpassword' in request.POST:
         username=request.POST.get("custname")
         password=request.POST.get("custpassword")
-        print password
-
         user=User.objects.create_user(username = username,password = password)
         customer = category(user = user,customer=True)
         customer.save()
@@ -30,9 +28,6 @@ def home(request):
     if request.method == "POST" and 'sellername' in request.POST  and 'sellerpassword' in request.POST:
         username=request.POST.get("sellername")
         password=request.POST.get("sellerpassword")
-
-        print("here")
-
         user=User.objects.create_user(username = username,password = password)
         customer = category(user = user,customer=False)
         customer.save()
@@ -42,7 +37,6 @@ def home(request):
         username = request.POST['loginuser']
         password = request.POST['loginpass']
         user = authenticate(username=username, password=password)
-        print(user)
         if user:
             login(request,user)
         return HttpResponseRedirect('/userhome/')
